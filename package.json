@@ -1,0 +1,22 @@
+{
+  "name": "officium",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --hot --inline --port 3000"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel": "^6.0.14",
+    "babel-core": "^5.8.33",
+    "babel-loader": "^5.3.3",
+    "json-loader": "^0.5.3",
+    "webpack": "^1.12.2",
+    "webpack-dev-server": "^1.12.1"
+  },
+  "dependencies": {
+    "pixi.js": "^3.0.8"
+  }
+}
