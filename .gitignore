@@ -46,3 +46,6 @@ webpack-assets.json
 
 .idea
 .vscode
+
+.vagrant/
+puppet/manifests/*.swp
