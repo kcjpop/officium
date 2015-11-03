@@ -9,32 +9,43 @@ document.body.appendChild(renderer.view)
 
 let stage = new P.Container()
 
+let a = {}
+let textures = P.utils.TextureCache
+
 P.loader
-  .add('assets/tiles.png')
+  .add('assets/fullTiles.json')
+  .add('assets/aliens.json')
   .load(onLoaded)
 
 function onLoaded (loader, res) {
-  let tiles = res['assets/tiles.png'].texture
-  let rectangle = new P.Rectangle(0, 178, 65, 89)
-  tiles.frame = rectangle
+  console.log(textures)
 
-  let tile = new P.Sprite(tiles)
-  tile.position.x = 100
-  tile.position.y = 200
-  stage.addChild(tile)
+  let n = 0
+  while (n++ < 10) {
+    let tile = new P.Sprite(textures['tileAutumn.png'])
+    tile.position.x = 100 + (n * 65)
+    tile.position.y = 500
+    stage.addChild(tile)
+  }
 
-  rectangle = new P.Rectangle(0, 178, 65, 89)
-  tiles.frame = rectangle
+  let alien = new P.Sprite(textures['alienBlue.png'])
+  alien.position.x = 200
+  alien.position.y = 480
+  stage.addChild(alien)
 
-  tile = new P.Sprite(tiles)
-  tile.position.x = 170
-  tile.position.y = 200
-  stage.addChild(tile)
+  a = alien
+
+  gameLoop()
+}
+
+function state () {
+  // a.position.x += 1
 }
 
 function gameLoop () {
   requestAnimationFrame(gameLoop)
 
+  state()
+
   renderer.render(stage)
 }
-gameLoop()
