@@ -17,6 +17,7 @@
     "webpack-dev-server": "^1.12.1"
   },
   "dependencies": {
+    "lodash": "^3.10.1",
     "pixi.js": "^3.0.8"
   }
 }
