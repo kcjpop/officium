@@ -30,8 +30,13 @@ function makeCityBadge () {
   c.position.set(0, 0)
   container.addChild(c)
 
-  let text = new P.Text('OULU', {font: 'normal 25px KenVectorFuture'})
-  text.position.set(50, 10)
+  let text = new P.Text('OULU', {
+    font: 'bold 25px "Short Stack"',
+    fill: '#a56729',
+    stroke: '#ffffff',
+    strokeThickness: 5
+  })
+  text.position.set(50, 3)
   container.addChild(text)
 
   return container
