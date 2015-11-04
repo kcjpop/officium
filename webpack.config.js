@@ -2,11 +2,12 @@ var path = require('path')
 var webpack = require('webpack')
 
 module.exports = {
+  context: path.join(__dirname, 'src'),
   devtool: 'eval',
   entry: [
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
-    './src/index'
+    './index'
   ],
   output: {
     path: path.join(__dirname, 'dist'),
@@ -21,7 +22,7 @@ module.exports = {
     new webpack.NoErrorsPlugin()
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.es6', '.js']
   },
   module: {
     loaders: [
@@ -31,7 +32,7 @@ module.exports = {
         loader: 'json'
       },
       {
-        test: /\.js?$/,
+        test: /\.es6?$/,
         loaders: ['babel'],
         include: path.join(__dirname, 'src'),
         exclude: /node_modules/
