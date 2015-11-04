@@ -42,6 +42,11 @@ export default function () {
   main.position.set(house.width, 0)
   c.addChild(main)
 
+  // Tree
+  let tree = new P.Sprite(textures['pineGreen_low.png'])
+  tree.position.set(house.width + main.width - 10, main.height - tree.height)
+  c.addChild(tree)
+
   let text = new P.Text('City Hall', {
     font: 'bold 18px "Short Stack"',
     fill: '#a56729',

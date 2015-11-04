@@ -7,7 +7,7 @@ export default function () {
   let c = new P.Container()
 
   let rows = 1
-  while (rows <= 3) {
+  while (rows <= 2) {
     let n = 0
     while (n < 19) {
       let t = new P.Sprite(textures['tileGrass_full.png'])
@@ -22,7 +22,7 @@ export default function () {
   let n = 0
   while (n < 20) {
     let a = Block({flower: random(0, 1) > 0})
-    a.position.set(n * 65, (rows + 1) * 30)
+    a.position.set(n * 65, (rows + 1) * 34)
     c.addChild(a)
     n++
   }

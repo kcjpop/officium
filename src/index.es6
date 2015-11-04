@@ -24,6 +24,7 @@ P.loader
   .add('assets/fullTiles.json')
   .add('assets/aliens.json')
   .add('assets/buildings.json')
+  .add('assets/trees.json')
   .add('assets/fields.json')
   .add('assets/ui.json')
   .add('assets/characters/alienBeige.json')
@@ -62,7 +63,7 @@ function onLoaded (loader, res) {
   stage.addChild(map)
 
   let cityHall = CityHall()
-  cityHall.position.set(500, 210)
+  cityHall.position.set(game.viewport.w - 500, 230)
   stage.addChild(cityHall)
 
   let frames = []
