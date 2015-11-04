@@ -62,7 +62,7 @@ function onLoaded (loader, res) {
   stage.addChild(map)
 
   let cityHall = CityHall()
-  cityHall.position.set(250, 200)
+  cityHall.position.set(500, 210)
   stage.addChild(cityHall)
 
   let frames = []
