@@ -42,7 +42,22 @@ export default function () {
   main.position.set(house.width, 0)
   c.addChild(main)
 
+  let text = new P.Text('City Hall', {
+    font: 'bold 18px "Short Stack"',
+    fill: '#a56729',
+    stroke: '#ffffff',
+    strokeThickness: 3
+  })
+  text.visible = false
+  c.addChild(text)
+
+  c.interactive = true
+  c.on('mouseover', () => text.visible = true)
+  c.on('mouseout', () => text.visible = false)
+
+  // Reposition
   house.y = Math.abs(main.height - house.height)
+  text.x = Math.floor((c.width - text.width) / 2)
 
   return c
 }
