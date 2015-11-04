@@ -1,7 +1,6 @@
 /* global requestAnimationFrame */
 import * as P from 'pixi.js'
 import forEach from 'lodash/collection/forEach'
-import CityHall from 'buildings/city-hall'
 import Oulu from 'maps/oulu'
 
 let game = {
@@ -21,11 +20,8 @@ let textures = P.utils.TextureCache
 let Sprite = P.Sprite
 
 P.loader
-  .add('assets/fullTiles.json')
-  .add('assets/aliens.json')
+  .add('assets/base.json')
   .add('assets/buildings.json')
-  .add('assets/trees.json')
-  .add('assets/fields.json')
   .add('assets/ui.json')
   .add('assets/characters/alienBeige.json')
   .load(onLoaded)
@@ -55,16 +51,11 @@ function onLoaded (loader, res) {
   stage.addChild(cityBadge)
 
   let map = Oulu()
-  console.log(map.height)
   map.position.set(
     Math.floor((game.viewport.w - map.width) / 2),
     Math.floor((game.viewport.h - map.height) / 2)
   )
   stage.addChild(map)
-
-  let cityHall = CityHall()
-  cityHall.position.set(game.viewport.w - 500, 230)
-  stage.addChild(cityHall)
 
   let frames = []
   forEach(['alienBeige_walk1.png', 'alienBeige_walk2.png'], frame => frames.push(textures[frame]))
@@ -74,7 +65,7 @@ function onLoaded (loader, res) {
   alien.anchor.set(0.5, 0.5)
   // alien.scale.set(0.7, 0.7)
   alien.animationSpeed = 0.1
-  alien.position.set(200, 450)
+  alien.position.set(190, 430)
   alien.play()
   stage.addChild(alien)
 
