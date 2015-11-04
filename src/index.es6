@@ -1,9 +1,14 @@
 /* global requestAnimationFrame */
 import * as P from 'pixi.js'
 import forEach from 'lodash/collection/forEach'
+import CityHall from 'buildings/city-hall'
+import Oulu from 'maps/oulu'
 
+let game = {
+  viewport: {w: window.innerWidth, h: window.innerHeight}
+}
 let backgroundColor = 0x1099bb
-let renderer = P.autoDetectRenderer(window.innerWidth, window.innerHeight, {backgroundColor})
+let renderer = P.autoDetectRenderer(game.viewport.w, game.viewport.h, {backgroundColor})
 renderer.view.className = 'officium'
 
 document.body.appendChild(renderer.view)
@@ -19,6 +24,7 @@ P.loader
   .add('assets/fullTiles.json')
   .add('assets/aliens.json')
   .add('assets/buildings.json')
+  .add('assets/fields.json')
   .add('assets/ui.json')
   .add('assets/characters/alienBeige.json')
   .load(onLoaded)
@@ -42,84 +48,29 @@ function makeCityBadge () {
   return container
 }
 
-function makeCityHall () {
-  let c = new P.Container()
-
-  let base = new Sprite(textures['stoneGateRight.png'])
-  base.position.set(0, 6 * 22 + 5)
-  c.addChild(base)
-
-  let n = 5
-  while (n > 0) {
-    let floor = new Sprite(textures['stoneWindows.png'])
-    floor.position.set(0, 5 + (n-- * 22))
-    c.addChild(floor)
-  }
-
-  let roof = new Sprite(textures['stoneRoofPointy.png'])
-  roof.position.set(0, 0)
-  c.addChild(roof)
-
-  return c
-}
-
 function onLoaded (loader, res) {
   let cityBadge = makeCityBadge()
   cityBadge.position.set(10, 10)
   stage.addChild(cityBadge)
 
-  let n = 0
-  while (n < 20) {
-    let tile = new Sprite(textures['tileRock.png'])
-    tile.position.set((n++ * 65), 500)
-    stage.addChild(tile)
-  }
+  let map = Oulu()
+  console.log(map.height)
+  map.position.set(
+    Math.floor((game.viewport.w - map.width) / 2),
+    Math.floor((game.viewport.h - map.height) / 2)
+  )
+  stage.addChild(map)
 
-  n = 0
-  while (n < 19) {
-    let tile = new Sprite(textures['tileDirt_full.png'])
-    tile.position.set((n++ * 65) + 32, 428)
-    stage.addChild(tile)
-  }
-
-  n = 0
-  while (n < 19) {
-    let tile = new Sprite(textures['tileDirt_full.png'])
-    tile.position.set((n++ * 65) + 32, 407)
-    stage.addChild(tile)
-  }
-
-  n = 0
-  while (n < 19) {
-    let tile = new Sprite(textures['tileGrass.png'])
-    tile.position.set((n++ * 65) + 32, 386)
-    stage.addChild(tile)
-  }
-
-  let tower = new Sprite(textures['tileStone_full.png'])
-  tower.position.set(65 * 20, 500)
-  stage.addChild(tower)
-
-  n = 0
-  while (n < 5) {
-    let part = new Sprite(textures['tileStone_full.png'])
-    part.position.set(65 * 20, 500 - (n++ * 21))
-    stage.addChild(part)
-  }
-
-  let cityHall = makeCityHall()
+  let cityHall = CityHall()
   cityHall.position.set(250, 200)
-  cityHall.interactive = true
-  cityHall.on('mousedown', e => console.log('clicked', e))
   stage.addChild(cityHall)
-
-  let top = new Sprite(textures['tileSnow.png'])
-  top.position.set(65 * 20, 500 - (5 * 21))
-  stage.addChild(top)
 
   let frames = []
   forEach(['alienBeige_walk1.png', 'alienBeige_walk2.png'], frame => frames.push(textures[frame]))
   let alien = new P.extras.MovieClip(frames)
+  alien.vx = 2
+  // alien.rotation = - Math.PI / 2
+  alien.anchor.set(0.5, 0.5)
   // alien.scale.set(0.7, 0.7)
   alien.animationSpeed = 0.1
   alien.position.set(200, 450)
@@ -132,7 +83,11 @@ function onLoaded (loader, res) {
 }
 
 function state () {
-  a.position.x += 2
+  a.position.x += a.vx
+  // if (a.position.x < 10 || a.position.x > 200) {
+  if (a.position.x === 10 || a.position.x > game.viewport.w - a.width) {
+    a.vx *= -1
+  }
 }
 
 function gameLoop () {

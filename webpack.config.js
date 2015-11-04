@@ -22,7 +22,10 @@ module.exports = {
     new webpack.NoErrorsPlugin()
   ],
   resolve: {
-    extensions: ['', '.es6', '.js']
+    extensions: ['', '.es6', '.js'],
+    root: [
+      path.join(__dirname, 'src')
+    ]
   },
   module: {
     loaders: [
