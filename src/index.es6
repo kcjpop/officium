@@ -61,9 +61,6 @@ function onLoaded (loader, res) {
   forEach(['alienBeige_walk1.png', 'alienBeige_walk2.png'], frame => frames.push(textures[frame]))
   let alien = new P.extras.MovieClip(frames)
   alien.vx = 2
-  // alien.rotation = - Math.PI / 2
-  alien.anchor.set(0.5, 0.5)
-  // alien.scale.set(0.7, 0.7)
   alien.animationSpeed = 0.1
   alien.position.set(190, 430)
   alien.play()
