@@ -1,0 +1,161 @@
+<html>
+<head>
+	<title>Pixi</title>
+
+</head>
+<body>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/pixi.js/3.0.8/pixi.min.js"></script>
+	<script type="text/javascript">
+
+		var Container = PIXI.Container,
+			autoDetectRenderer = PIXI.autoDetectRenderer,
+			loader = PIXI.loader,
+			resources = PIXI.loader.resources,
+			Sprite = PIXI.Sprite;
+
+		var stage = new Container(),
+			renderer = autoDetectRenderer(1024,1024);
+		document.body.appendChild(renderer.view);
+
+		loader.add("assets/buildings.json")
+			   .load(setup);
+		
+		
+		
+		
+
+		function setup(){
+
+			var building = new Container();
+
+		
+		
+
+			var sandDoorId = [ "sandDoorLeft.png", "sandDoorRight.png",  "sandDoorWindow.png", "sandDoorWindowBlinds.png",
+				 				"sandDoorWindowBlindsMirror.png","sandDoorWindowMirror.png"];
+
+			var sandGateId = [ "sandGateLeft.png", "sandGateRight.png", "sandRing.png"];
+
+			var sandRoofId = [ "sandRoofPointy.png","sandRoofRounded.png","sandRoofShort.png",
+								"sandRoofStraight.png","sandRoofTall.png"]
+
+			var sandWindowId =  ["sandWindowBlinds.png", "sandWindowBlindsLeft.png", "sandWindowBlindsRight.png", 
+								"sandWindowLeft.png", "sandWindowRight.png","sandWindows.png"];
+
+
+			material = [sandGateId[1],sandWindowId[0],sandWindowId[5],sandRoofId[0]];
+			createSandBuilding(building, material);
+
+
+			renderer.render(building);
+
+			//create sprite for testing
+			/*var spacingX = 80;
+			var spacingY = 120;
+			var id = loader.resources["assets/buildings.json"].textures;
+			var createSprite = function(spriteId){
+				return new Sprite(id[spriteId]);
+			}
+		
+			
+			var sandDoor = [];
+
+			for(var i = 0; i < sandDoorId.length ; ++i){
+
+				sandDoor[i] = createSprite(sandDoorId[i]);
+				var x = 20 + spacingX*i;
+				var y = 20;
+				sandDoor[i].position.set(x,y);
+
+				//building.addChild(sandDoor[i]);
+			}
+			
+			var sandGate = [];
+
+			for(var i = 0; i < sandGateId.length ; ++i){
+
+				sandGate[i] = createSprite(sandGateId[i]);
+				var x = 20 + spacingX*i;
+				var y = spacingY;
+				sandGate[i].position.set(x,y);
+
+				//building.addChild(sandGate[i]);
+			}
+
+			spacingY+=120;
+			var sandRoof = [];
+
+			for(var i = 0; i < sandRoofId.length ; ++i){
+
+				sandRoof[i] = createSprite(sandRoofId[i]);
+				var x = 20 + spacingX*i;
+				var y = spacingY;
+				sandRoof[i].position.set(x,y);
+
+				//building.addChild(sandRoof[i]);
+			}
+
+			spacingY+=120;
+			var sandWindow = [];
+
+			for(var i = 0; i < sandWindowId.length ; ++i){
+				
+				sandWindow[i] = createSprite(sandWindowId[i]);
+				var x = 20 + spacingX*i;
+				var y = spacingY;
+				sandWindow[i].position.set(x,y);
+
+				//building.addChild( sandWindow[i] );
+			}*/
+			
+			//create building with , door3, gate1, roof0, window0
+
+		
+		}
+
+		function createSandBuilding(container, material){
+
+			var id = loader.resources["assets/buildings.json"].textures;
+			var createSprite = function(spriteId){
+				return new Sprite(id[spriteId]);
+			}
+
+			var x = 600;
+			var y = 500;
+			var modify = 22;
+			console.log(container);
+
+			//build base
+			var gate = createSprite(material[0]);
+			gate.position.set(x,y);
+			container.addChild(gate);
+
+			//build 4 floor
+			var i =0;
+			while( i < 4){
+
+				++i;
+				var window1 = createSprite(material[1]);
+				window1.position.set(x,y - modify*i);
+				container.addChild(window1);
+
+				++i;
+
+				var window2 = createSprite(material[2]);
+				window2.position.set(x,y - modify*(i));
+				container.addChild(window2);
+
+			}
+
+			//build roof
+			++i;
+			var roof = createSprite(material[3]);
+			roof.position.set(x,y - modify*i);
+			container.addChild(roof);
+		}
+
+		
+
+	</script>
+</body>
+</html>
