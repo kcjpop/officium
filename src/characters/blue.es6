@@ -2,7 +2,7 @@ import * as P from 'pixi.js'
 import {forEach, map} from 'lodash'
 // import {drawText} from 'helpers'
 
-export default class BlueAlien extends P.Sprite {
+export default class BlueAlien extends P.Container {
   constructor (texture) {
     super(texture)
 
@@ -11,6 +11,10 @@ export default class BlueAlien extends P.Sprite {
     this.animations = {}
     this.currentAnimation = null
     this.setAnimations()
+  }
+
+  isPlaying (name) {
+    return this.currentAnimation === this.animations[name]
   }
 
   setAnimations () {
