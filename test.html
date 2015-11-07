@@ -11,25 +11,303 @@
 			autoDetectRenderer = PIXI.autoDetectRenderer,
 			loader = PIXI.loader,
 			resources = PIXI.loader.resources,
+			textures = PIXI.utils.TextureCache,
 			Sprite = PIXI.Sprite;
 
+		var maxWidth = window.innerWidth;
+		var maxHeight = window.innerHeight;
+
 		var stage = new Container(),
-			renderer = autoDetectRenderer(1024,1024);
+			renderer = autoDetectRenderer(maxWidth, maxHeight);
 		document.body.appendChild(renderer.view);
 
 		loader.add("assets/buildings.json")
+			   .add("assets/base.json")
 			   .load(setup);
 		
 		
 		
-		
+		function createSprite (spriteId){
+				var sprite = textures[spriteId];
 
+				return new Sprite(sprite);
+			}
+
+		function createMap(container){
+
+			/*var materialForMap = ["tileGrass.png", "tileGrass_full.png","tileMagic.png","tileStone_bridge.png",
+									"tileStone.png","tileStone.png",
+									"titleSnow.png", "tileSnow_full.png","tileSnow_tile.png"];*/
+			
+
+			
+			//fill ground with  "tileWater.png"  width="65" height="89"
+			var startX =  5 ;
+			var startY = 20;
+			var width = 65;
+			var height = 50;
+
+			for(var row =0; row < 10; ++ row){
+
+				for( var col =0; col < 19; ++col){
+
+					var tileGrass = createSprite("tileWater.png");
+
+					var x = startX + width * col;
+					var y = startY + row * height;
+					tileGrass.position.set(x,y);
+					container.addChild(tileGrass);
+				}
+			}
+
+			//create ground with  "tileGrass.png"  width="65" height="89"
+			var startX = 5;
+			var startY = 20;
+			var width = 65;
+			var height = 50;
+
+			for(var row =0; row < 6; ++ row){
+
+				for( var col =0; col < 7; ++col){
+
+					var tileGrass = createSprite("tileGrass.png");
+
+					var x = startX + width * col;
+					var y = startY + row * height;
+					tileGrass.position.set(x,y);
+					container.addChild(tileGrass);
+				}
+			}
+
+			
+
+			//create ground with  "tileSnow.png"  width="65" height="89"
+			var startX =  5 + 12 * 65 ;
+			var startY = 20;
+			var width = 65;
+			var height = 50;
+
+			for(var row =0; row < 6; ++ row){
+
+				for( var col =0; col < 7; ++col){
+
+					var tileGrass = createSprite("tileSnow.png");
+
+					var x = startX + width * col;
+					var y = startY + row * height;
+					tileGrass.position.set(x,y);
+					container.addChild(tileGrass);
+				}
+			}
+
+			
+		//below half map
+
+			//fill ground with  "tileWater.png"  width="65" height="89"
+			var startX =  5 ;
+			var startY = 20 + 89*6 -40;
+			var width = 65;
+			var height = 50;
+
+			for(var row =0; row < 5; ++ row){
+
+				for( var col =0; col < 19; ++col){
+
+					var tileGrass = createSprite("tileMagic.png");
+
+					var x = startX + width * col;
+					var y = startY + row * height;
+					tileGrass.position.set(x,y);
+					container.addChild(tileGrass);
+				}
+			}
+
+			
+			var bridgeMaterial = "tileStone_bridge.png";
+			CreateBridgeFromWoodToSnow(container,bridgeMaterial);
+
+			bridgeMaterial = "tileWood_bridge.png";
+			CreateBridgeFromWoodToMagic(container,bridgeMaterial);
+
+			CreateBridgeFromSnowToMagic(container,bridgeMaterial);
+			
+			
+
+			
+		}
+		function CreateBridgeFromWoodToSnow(container, bridgeMaterial){
+			//create bridge with 'tileWood_bridge.png' width="65" height="89"
+			//bridge connect grassland with magicland
+			var startX =  5 +2 * 65 ;
+			var startY = 20 + 89 *3 + 40;
+			var width = 65;
+			var height = 50;
+
+			for(var col =0; col < 4; col= col +2){
+
+				for( var row =0; row < 4; ++row){
+
+					var tileGrass = createSprite(bridgeMaterial);
+
+					var x = startX + width * col;
+					var y = startY + row * height;
+					tileGrass.position.set(x,y);
+					container.addChild(tileGrass);
+				}
+			}
+		}
+
+		function CreateBridgeFromSnowToMagic(container, bridgeMaterial){
+
+			//create bridge with 'tileWood_bridge.png' width="65" height="89"
+			//bridge connect snowland with magicland
+			var startX =  5 +14 * 65 ;
+			var startY = 20 + 89 *3 + 40;
+			var width = 65;
+			var height = 50;
+
+			for(var col =0; col < 4; col= col +2){
+
+				for( var row =0; row < 4; ++row){
+
+					var tileGrass = createSprite(bridgeMaterial);
+
+					var x = startX + width * col;
+					var y = startY + row * height;
+					tileGrass.position.set(x,y);
+					container.addChild(tileGrass);
+				}
+			}
+
+		}
+
+		function CreateBridgeFromWoodToMagic(container, bridgeMaterial){
+			//create bridge with 'tileWood_bridge.png' width="65" height="89"
+			//bridge connect grassland with magicland
+			var startX =  5 +2 * 65 ;
+			var startY = 20 + 89 *3 + 40;
+			var width = 65;
+			var height = 50;
+
+			for(var col =0; col < 4; col= col +2){
+
+				for( var row =0; row < 4; ++row){
+
+					var tileGrass = createSprite(bridgeMaterial);
+
+					var x = startX + width * col;
+					var y = startY + row * height;
+					tileGrass.position.set(x,y);
+					container.addChild(tileGrass);
+				}
+			}
+
+
+		}
+
+		function DecorationForMap(container){
+			//treeAutumn_high.png,treeAutumn_low.png.,treeAutumn_mid.png,treeBlue_high.png
+			//treeCactus_1.png, treeCactus_2.png, treeCactus_3.png
+			//treeGreen_high.png
+			//pineAutumn_high.png
+			//waveLava.png
+			//waveWater.png
+
+			//bushAutumn.png, bushDirt.png, bushGrass.png, bushMagic.png, bushSand.png , bushSnow.png
+			//flowerBlue.png, flowerGreen.png, flowerRed.png,flowerWhite.png, flowerYellow.png
+
+			var startX =  5 ;
+			var startY = 20;
+			var width = 27;
+			var height = 107;
+			var space = 10;
+
+			//row of tree
+			for(var row =0; row < 1; ++ row){
+
+				for( var col =0; col < 10; ++col){
+					var tileGrass = createSprite("treeBlue_low.png");
+
+					var x = startX + width * col + space * col;
+					var y = startY + row * height;
+					tileGrass.position.set(x,y);
+					container.addChild(tileGrass);
+				}
+			}
+
+			//column of tree
+			height = 80;
+			for(var col =0; col < 1; ++ col){
+
+				for( var row =0; row < 3; ++row){
+					var tileGrass = createSprite("treeAutumn_low.png");
+
+					var x = startX + width * col + space * col;
+					var y = startY + row * height;
+					tileGrass.position.set(x,y);
+					container.addChild(tileGrass);
+				}
+			}
+
+			//flowerRed
+			startX = 50;
+			startY = 100;
+			width = 12;
+			height = 11;
+			for(var row =0; row < 3; ++ row){
+
+				for( var col =0; col < 4; ++col){
+					var tileGrass = createSprite("flowerRed.png");
+
+					var x = startX + width * col + space * col;
+					var y = startY + row * height;
+					tileGrass.position.set(x,y);
+					container.addChild(tileGrass);
+				}
+			}
+
+			//flowerBlue
+			startX = 200;
+			startY = 100;
+			width = 12;
+			height = 11;
+			for(var row =0; row < 3; ++ row){
+
+				for( var col =0; col < 4; ++col){
+					var tileGrass = createSprite("flowerBlue.png");
+
+					var x = startX + width * col + space * col;
+					var y = startY + row * height;
+					tileGrass.position.set(x,y);
+					container.addChild(tileGrass);
+				}
+			}
+
+			//flowerGreen
+			startX = 200;
+			startY = 600;
+			width = 12;
+			height = 11;
+			for(var row =0; row < 3; ++ row){
+
+				for( var col =0; col < 4; ++col){
+					var tileGrass = createSprite("flowerGreen.png");
+
+					var x = startX + width * col + space * col;
+					var y = startY + row * height;
+					tileGrass.position.set(x,y);
+					container.addChild(tileGrass);
+				}
+			}
+
+
+
+
+		}
+		
 		function setup(){
 
 			var building = new Container();
-
-		
-		
 
 			var sandDoorId = [ "sandDoorLeft.png", "sandDoorRight.png",  "sandDoorWindow.png", "sandDoorWindowBlinds.png",
 				 				"sandDoorWindowBlindsMirror.png","sandDoorWindowMirror.png"];
@@ -41,6 +319,17 @@
 
 			var sandWindowId =  ["sandWindowBlinds.png", "sandWindowBlindsLeft.png", "sandWindowBlindsRight.png", 
 								"sandWindowLeft.png", "sandWindowRight.png","sandWindows.png"];
+
+			
+			//'tileGrass.png', 'tileGrass_full.png','tileMagic.png','tileStone_bridge.png'
+			//tileStone.png,tileStone.png, 
+			//titleSnow.png, tileSnow_full.png,tileSnow_tile.png
+
+		
+		
+			createMap(building);
+
+			DecorationForMap(building);
 
 
 			material = [sandGateId[1],sandWindowId[0],sandWindowId[5],sandRoofId[0]];
@@ -115,15 +404,16 @@
 
 		function createSandBuilding(container, material){
 
-			var id = loader.resources["assets/buildings.json"].textures;
 			var createSprite = function(spriteId){
-				return new Sprite(id[spriteId]);
+				var sprite = textures[spriteId];
+
+				return new Sprite(sprite);
 			}
 
 			var x = 600;
 			var y = 500;
 			var modify = 22;
-			console.log(container);
+			
 
 			//build base
 			var gate = createSprite(material[0]);
