@@ -1,5 +1,6 @@
 import * as P from 'pixi.js'
 import CityHall from 'buildings/city-hall'
+import SandBuilding from 'buildings/sand'
 import {GrassBlock, SnowBlock} from 'el/blocks'
 import {random} from 'lodash'
 
@@ -76,6 +77,10 @@ export default function () {
   let cityHall = CityHall()
   cityHall.position.set(c.width - 300, 65)
   c.addChild(cityHall)
+
+  let sand = SandBuilding()
+  sand.position.set(snowBlocks.width + 130, snowBlocks.height - 33)
+  c.addChild(sand)
 
   return c
 }
