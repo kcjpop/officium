@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --hot --inline --port 3000"
+    "start": "webpack-dev-server --hot --inline --port 3000",
+    "build": "ENV=prod webpack -p --config webpack.prod.config.js"
   },
   "author": "",
   "license": "ISC",
