@@ -23,6 +23,18 @@ body {margin: 0 auto; padding: 0; font-family: "Short Stack";}
     color: #eee;
   }
 
+  .of-modal-body li {
+    display: inline-block;
+    list-style-type: none;
+    float: left;
+    width: 20%;
+    margin-left: 10px;
+  }
+
+  .of-modal-body li p {
+    height: 60%;
+  }
+
 .btn-of {
   border: 0;
   outline: none;
