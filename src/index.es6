@@ -1,7 +1,8 @@
 /* global requestAnimationFrame */
 import * as P from 'pixi.js'
-import forEach from 'lodash/collection/forEach'
 import Oulu from 'maps/oulu'
+import {drawText} from 'helpers'
+import BeigeAlien from 'characters/beige'
 
 let game = {
   viewport: {w: window.innerWidth, h: window.innerHeight}
@@ -13,8 +14,6 @@ renderer.view.className = 'officium'
 document.body.appendChild(renderer.view)
 
 let stage = new P.Container()
-
-let a = {}
 // Aliases
 let textures = P.utils.TextureCache
 let Sprite = P.Sprite
@@ -23,7 +22,7 @@ P.loader
   .add('assets/base.json')
   .add('assets/buildings.json')
   .add('assets/ui.json')
-  .add('assets/characters/alienBeige.json')
+  .add('assets/aliens.json')
   .load(onLoaded)
 
 function makeCityBadge () {
@@ -33,12 +32,7 @@ function makeCityBadge () {
   c.position.set(0, 0)
   container.addChild(c)
 
-  let text = new P.Text('OULU', {
-    font: 'bold 25px "Short Stack"',
-    fill: '#a56729',
-    stroke: '#ffffff',
-    strokeThickness: 5
-  })
+  let text = drawText('OULU', {font: 'bold 25px "Short Stack"'})
   text.position.set(50, 3)
   container.addChild(text)
 
@@ -57,26 +51,25 @@ function onLoaded (loader, res) {
   )
   stage.addChild(map)
 
-  let frames = []
-  forEach(['alienBeige_walk1.png', 'alienBeige_walk2.png'], frame => frames.push(textures[frame]))
-  let alien = new P.extras.MovieClip(frames)
+  let alien = new BeigeAlien()
   alien.vx = 2
-  alien.animationSpeed = 0.1
-  alien.position.set(190, map.height + alien.height)
-  alien.play()
+  alien.position.set(Math.round((map.width - alien.width) / 2), map.height + alien.height)
   stage.addChild(alien)
 
-  a = alien
+  game.alien = alien
+  game.map = map
 
   gameLoop()
 }
 
+let timer = 0
 function state () {
-  a.position.x += a.vx
-  // if (a.position.x < 10 || a.position.x > 200) {
-  if (a.position.x === 10 || a.position.x > game.viewport.w - a.width) {
-    a.vx *= -1
-  }
+  // let {alien, map} = game
+
+  // alien.x += alien.vx
+  // if (alien.x <= map.x || alien.x > map.width) {
+  //   alien.vx *= -1
+  // }
 }
 
 function gameLoop () {
