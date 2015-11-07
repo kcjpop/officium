@@ -3,6 +3,7 @@ import * as P from 'pixi.js'
 import Oulu from 'maps/oulu'
 import {drawText} from 'helpers'
 import BeigeAlien from 'characters/beige'
+import BlueAlien from 'characters/blue'
 
 let game = {
   viewport: {w: window.innerWidth, h: window.innerHeight}
@@ -51,6 +52,20 @@ function onLoaded (loader, res) {
   )
   stage.addChild(map)
 
+  let b = new BlueAlien()
+  b.position.set(map.x + 65, map.height + b.height + 150)
+  stage.addChild(b)
+  b.play('stand')
+  b.interactive = true
+  b.on('click', () => {
+    b.vx = 5
+    if (b.isPlaying('walk')) {
+      b.play('stand')
+    } else {
+      b.play('walk', 0.1)
+    }
+  })
+
   let alien = new BeigeAlien()
   alien.vx = 2
   alien.position.set(Math.round((map.width - alien.width) / 2), map.height + alien.height)
@@ -58,13 +73,22 @@ function onLoaded (loader, res) {
 
   game.alien = alien
   game.map = map
+  game.b = b
 
   gameLoop()
 }
 
-let timer = 0
 function state () {
   // let {alien, map} = game
+  let {b, map} = game
+
+  if (b.isPlaying('walk')) {
+    b.x += b.vx
+    if (b.x > map.x + map.width - b.width || b.x < map.x - b.width) {
+      b.scale.x *= -1
+      b.vx *= -1
+    }
+  }
 
   // alien.x += alien.vx
   // if (alien.x <= map.x || alien.x > map.width) {
