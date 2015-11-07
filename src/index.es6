@@ -3,6 +3,7 @@ import * as P from 'pixi.js'
 import Oulu from 'maps/oulu'
 import {drawText} from 'helpers'
 import BeigeAlien from 'characters/beige'
+import BlueAlien from 'characters/blue'
 
 let game = {
   viewport: {w: window.innerWidth, h: window.innerHeight}
@@ -40,6 +41,12 @@ function makeCityBadge () {
 }
 
 function onLoaded (loader, res) {
+  let b = new BlueAlien()
+  b.vx = 2
+  b.position.set(150, 150)
+  stage.addChild(b)
+  b.play('walk', 0.1)
+
   let cityBadge = makeCityBadge()
   cityBadge.position.set(10, 10)
   stage.addChild(cityBadge)
@@ -58,13 +65,22 @@ function onLoaded (loader, res) {
 
   game.alien = alien
   game.map = map
+  game.b = b
 
   gameLoop()
 }
 
-let timer = 0
 function state () {
   // let {alien, map} = game
+  let {b, map} = game
+  b.x += b.vx
+  if (b.x === map.width / 2 | 0) {
+    b.vx *= -1
+    b.play('hurt')
+  } else if (b.x === 0) {
+    b.vx = 0
+    b.play('stand')
+  }
 
   // alien.x += alien.vx
   // if (alien.x <= map.x || alien.x > map.width) {
