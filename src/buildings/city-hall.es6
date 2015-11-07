@@ -1,4 +1,6 @@
+/* global $ */
 import * as P from 'pixi.js'
+import {drawText} from 'helpers'
 
 export default function () {
   let textures = P.utils.TextureCache
@@ -47,18 +49,16 @@ export default function () {
   tree.position.set(house.width + main.width - 10, main.height - tree.height)
   c.addChild(tree)
 
-  let text = new P.Text('City Hall', {
-    font: 'bold 18px "Short Stack"',
-    fill: '#a56729',
-    stroke: '#ffffff',
-    strokeThickness: 3
-  })
+  let text = drawText('City Hall')
   text.visible = false
   c.addChild(text)
 
   c.interactive = true
   c.on('mouseover', () => text.visible = true)
   c.on('mouseout', () => text.visible = false)
+  c.on('click', e => {
+    $('#js-city-hall-modal').modal('show')
+  })
 
   // Reposition
   house.y = Math.abs(main.height - house.height)
