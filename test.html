@@ -39,7 +39,9 @@
 			createSandBuildingType1(container);
 			createWoodBuildingType1(container);
 			createStoneBuildingType1(container);
-		
+			
+			createStoneBuildingType2(container);
+
 			renderer.render(container);
 		
 		}
@@ -51,7 +53,36 @@
 				return new Sprite(sprite);
 		}
 
+		function createSingleTile(container,info){
+
+			var tile = createSprite(info.tileId);
+			var x = info.startX;
+			var y = info.startY;
+
+			tile.position.set(x, y);
+			container.addChild(tile);
+		}
 		function createRowTiles(container,info){
+
+			for(var row =0; row < info.numberOfRow; row += info.rowIncrease){
+
+				for( var col =0; col < info.numberOfCol; col += info.colIncrease){
+
+					var tmpX = info.startX;
+					var tmpY = info.startY;
+
+					info.startX = info.startX + info.width * col + info.distanceX * col;
+					info.startY = info.startY + info.height * row + info.distanceY * row ;
+
+					createSingleTile(container,info);
+
+					info.startX = tmpX;
+					info.startY = tmpY;
+				}
+			}
+		}
+
+		function createRowTilesRightToLeft(container,info){
 
 			for(var row =0; row < info.numberOfRow; row += info.rowIncrease){
 
@@ -59,8 +90,8 @@
 
 					var tile = createSprite(info.tileId);
 
-					var x = info.startX + info.width * col + info.distanceX * col;
-					var y = info.startY + info.height * row + info.distanceY * row ;
+					var x = info.startX - info.width * col + info.distanceX * col;
+					var y = info.startY  + info.height * row + info.distanceY * row ;
 
 					tile.position.set(x,y);
 					container.addChild(tile);
@@ -92,6 +123,7 @@
 			this.snow = "tileSnow.png";
 			this.magic = "tileMagic.png";
 			this.water = "tileWater.png";
+			this.sand = "tileSand.png";
 
 			//bridge
 			this.bridgeStone = "tileStone_bridge.png";
@@ -139,9 +171,10 @@
 			
 			var tile = new Tile();
 			
-			//fill ground with  "tileWater.png"  width="65" height="89"
+		//fill ground with  "tileWater.png"  width="65" height="89"
 
 			var info = new Info();
+
 			info.startX = 5;
 			info.startY = 20;
 			info.width = 65;
@@ -149,63 +182,131 @@
 			info.distanceX = 0;
 			info.distanceY = 0;
 			info.tileId = tile.water;
-			info.numberOfRow = 10;
+			info.numberOfRow = 20;
 			info.numberOfCol = 19;
 			info.rowIncrease = 1;
 			info.colIncrease = 1;
 
-			createRowTiles(container, info);
-			
+		//createRowTiles(container, info);
+			info.tileId = tile.water;
 
-			//create ground with  "tileGrass.png"  width="65" height="89"
-			info.startX = 5;
-			info.startY = 20;
-			info.width = 65;
-			info.height = 50;
+			size = 13;
+			for(var i = 0; i <= size ; ++i){
+
+				info.startX = 5 ;
+				info.startY = 20 + 48*i;
+				info.numberOfRow = 1;
+				info.numberOfCol = 19;
+				info.rowIncrease = 1;
+				createRowTiles(container, info);
+
+				++i;
+
+				info.startX = 5 + 32;
+				info.startY = 20 + 48 *i;
+				info.numberOfRow = 1;
+				info.numberOfCol = 19;
+				createRowTiles(container, info);
+			}	
+
+
+		//grass
+
 			info.tileId = tile.grass;
-			info.numberOfRow = 6;
-			info.numberOfCol = 7;
 
-			createRowTiles(container, info);
 
-			
+			size = 6;
+			for(var i = 0; i <= size ; ++i){
 
-			//create ground with  "tileSnow.png"  width="65" height="89"
-			info.startX =  5 + 12 * 65 ;
-			info.startY = 20;
-			info.width = 65;
-			info.height = 50;
-			info.tileId = tile.snow;
-			info.numberOfRow = 6;
-			info.numberOfCol = 7;
+				info.startX = 5 + 65;
+				info.startY = 70 + 48*i;
+				info.numberOfRow = 1;
+				info.numberOfCol = 10 ;
+				info.rowIncrease = 1;
+				createRowTiles(container, info);
 
-			createRowTiles(container, info);
+				++i;
 
-			
-		//below half map
+				info.startX = 5 + 65 - 32;
+				info.startY = 70 + 48 *i;
+				info.numberOfRow = 1;
+				info.numberOfCol = 10 -i;
+				createRowTiles(container, info);
+			}
 
-			//fill ground with  "tileMagic.png"  width="65" height="89"
-			info.startX =  5 ;
-			info.startY = 20 + 89*6 -40;
-			info.width = 65;
-			info.height = 50;
+		//sand
+
+			info.tileId = tile.sand;
+
+
+			size = 6;
+			for(var i = 0; i <= size ; ++i){
+
+				info.startX = 5 + 65*18;
+				info.startY = 70 + 48*i;
+				info.numberOfRow = 1;
+				info.numberOfCol = 9 ;
+				info.rowIncrease = 1;
+				createRowTilesRightToLeft(container, info);
+
+				++i;
+
+				info.startX = 5 + 65*18 - 32;
+				info.startY = 70 + 48 *i;
+				info.numberOfRow = 1;
+				info.numberOfCol = 8 -i;
+				createRowTilesRightToLeft(container, info);
+			}
+
+
+
+		//magic
 			info.tileId = tile.magic;
-			info.numberOfRow = 5;
-			info.numberOfCol = 19;
 
-			createRowTiles(container, info);
 
-			
-			info.tileId = tile.bridgeStone;
-			CreateBridgeFromWoodToSnow(container,info);
+			size = 5;
+			for(var i = 0; i <= size ; ++i){
 
-			info.tileId = tile.bridgeWood;
-			CreateBridgeFromWoodToMagic(container,info);
+				info.startX = 5 + 65;
+				info.startY = 70 + 48*8 + 48*i ;
+				info.numberOfRow = 1;
+				info.numberOfCol = 12;
+				info.rowIncrease = 1;
+				createRowTiles(container, info);
 
-			CreateBridgeFromSnowToMagic(container,info);
-			
-			
+				++i;
 
+				info.startX = 5 + 65 - 32;
+				info.startY = 70 +  48*8 + 48 *i;
+				info.numberOfRow = 1;
+				info.numberOfCol = 12;
+				createRowTiles(container, info);
+			}
+
+		//sand
+
+			info.tileId = tile.sand;
+			size = 4;
+			for(var i =0 ; i <= size ; ++i){
+
+				info.startX = 5 + 65*13 ;
+				info.startY = 70 + 48*8  +48*i ;
+				info.numberOfRow = 1;
+				info.numberOfCol = 6;
+				info.rowIncrease = 1;
+				createRowTiles(container, info);
+
+				++i;
+
+				info.startX = 5 + 65*13 -32 ;
+				info.startY = 70 + 48*8 + 48*i  ;
+				info.numberOfRow = 1;
+				info.numberOfCol = 6;
+				info.rowIncrease = 1;
+				createRowTiles(container, info);
+			}
+
+	
 			
 		}
 
@@ -277,94 +378,181 @@
 
 			var tile = new Tile();
 			tile.treeCactus_1 = "treeCactus_1.png";
+			tile.treeCactus_2 = "treeCactus_2.png";
 			tile.treeBlue_low = "treeBlue_low.png";
+			tile.treeGreen_high = "treeGreen_high.png";
+			tile.pineAutumn_high = "pineAutumn_high.png";
+			tile.bushAutumn = "bushAutumn.png";
+			tile.bushDirt = "bushDirt.png";
+			tile.flowerRed = "flowerRed.png";
+			tile.flowerBlue = "flowerBlue.png";
+			tile.flowerGreen = "flowerGreen.png";
+			tile.flowerWhite = "flowerWhite.png";
+			tile.flowerYellow = "flowerYellow.png";
+
+			tile.rockStone = "rockStone.png";
+			tile.rockStone_moss1 = "rockStone_moss1.png";
+			tile.smallRockGrass = "smallRockGrass.png";
+			tile.smallRockSnow = "smallRockSnow.png";
+			tile.smallRockStone = "smallRockStone.png";
+
+			var info = new Info();
+			info.startX = 70;
+			info.startY = 50;
+			info.distanceX = 0;
+			info.distanceY = 0;
+			info.width = 27;
+			info.height = 60;
+			info.distanceX = 10;
+			info.tileId = tile.treeBlue_low;
+			info.numberOfRow = 6;
+			info.numberOfCol = 1;
+			info.colIncrease = 1;
+			info.rowIncrease = 1;
+
+			createColTiles(container,info);
+
 			
-			var startX =  5 ;
-			var startY = 20;
-			var width = 27;
-			var height = 107;
-			var space = 10;
+			info.startX = 750;
+			info.numberOfRow = 1;
+			info.numberOfCol = 10;
 
-			//row of tree
-			for(var row =0; row < 1; ++ row){
+			info.tileId = tile.treeCactus_1;
+			createRowTiles(container,info);
 
-				for( var col =0; col < 10; ++col){
-					var tileGrass = createSprite("treeBlue_low.png");
+			
+			info.startX = 1150;
+			info.numberOfRow = 10;
+			info.numberOfCol = 1;
 
-					var x = startX + width * col + space * col;
-					var y = startY + row * height;
-					tileGrass.position.set(x,y);
-					container.addChild(tileGrass);
-				}
-			}
+			info.tileId = tile.treeCactus_2;
+			createColTiles(container,info);
 
-			//column of tree
-			height = 80;
-			for(var col =0; col < 1; ++ col){
+		//flower garden1
+			info.startX = 100;
+			info.startY = 500;
+			info.height = 30;
+			info.numberOfRow = 3;
+			info.numberOfCol = 4;
+			info.tileId = tile.flowerRed;
+			createRowTiles(container,info);
 
-				for( var row =0; row < 3; ++row){
-					var tileGrass = createSprite("treeAutumn_low.png");
+			info.startX = 100;
+			info.startY = 515;
+			info.height = 30;
+			info.numberOfRow = 3;
+			info.numberOfCol = 4;
+			info.tileId = tile.flowerYellow;
+			createRowTiles(container,info);
 
-					var x = startX + width * col + space * col;
-					var y = startY + row * height;
-					tileGrass.position.set(x,y);
-					container.addChild(tileGrass);
-				}
-			}
+			info.startX = 200;
+			info.startY = 600;
+			info.height = 30;
+			info.numberOfRow = 3;
+			info.numberOfCol = 4;
+			info.tileId = tile.flowerWhite;
+			createRowTiles(container,info);
 
-			//flowerRed
-			startX = 50;
-			startY = 100;
-			width = 12;
-			height = 11;
-			for(var row =0; row < 3; ++ row){
+			info.startX = 200;
+			info.startY = 615;
+			info.height = 30;
+			info.numberOfRow = 3;
+			info.numberOfCol = 4;
+			info.tileId = tile.flowerBlue;
+			createRowTiles(container,info);
 
-				for( var col =0; col < 4; ++col){
-					var tileGrass = createSprite("flowerRed.png");
+		//flower garden2
+			info.startX = 250;
+			info.startY = 500;
+			info.height = 30;
+			info.numberOfRow = 3;
+			info.numberOfCol = 4;
+			info.tileId = tile.flowerWhite;
+			createRowTiles(container,info);
 
-					var x = startX + width * col + space * col;
-					var y = startY + row * height;
-					tileGrass.position.set(x,y);
-					container.addChild(tileGrass);
-				}
-			}
+			info.startX = 250;
+			info.startY = 515;
+			info.height = 30;
+			info.numberOfRow = 3;
+			info.numberOfCol = 4;
+			info.tileId = tile.flowerGreen;
+			createRowTiles(container,info);
 
-			//flowerBlue
-			startX = 200;
-			startY = 100;
-			width = 12;
-			height = 11;
-			for(var row =0; row < 3; ++ row){
+		//bush garden1
+			info.startX = 200;
+			info.startY = 250;
+			info.height = 30;
+			info.numberOfRow = 3;
+			info.numberOfCol = 4;
+			info.tileId = tile.bushAutumn;
+			createRowTiles(container,info);
 
-				for( var col =0; col < 4; ++col){
-					var tileGrass = createSprite("flowerBlue.png");
+			info.startX = 200;
+			info.startY = 265;
+			info.height = 30;
+			info.numberOfRow = 3;
+			info.numberOfCol = 4;
+			info.tileId = tile.bushDirt;
+			createRowTiles(container,info);
 
-					var x = startX + width * col + space * col;
-					var y = startY + row * height;
-					tileGrass.position.set(x,y);
-					container.addChild(tileGrass);
-				}
-			}
+		//stone
+			info.startX = 900;
+			info.startY = 650;
+			info.height = 30;
+			info.numberOfRow = 2;
+			info.numberOfCol = 3;
+			info.tileId = tile.smallRockStone;
+			createColTiles(container,info);
 
-			//flowerGreen
-			startX = 200;
-			startY = 600;
-			width = 12;
-			height = 11;
-			for(var row =0; row < 3; ++ row){
+			info.startX = 1000;
+			info.startY = 450;
+			info.height = 30;
+			info.numberOfRow = 1;
+			info.numberOfCol = 3;
+			info.tileId = tile.smallRockStone;
+			createColTiles(container,info);
 
-				for( var col =0; col < 4; ++col){
-					var tileGrass = createSprite("flowerGreen.png");
+			info.startX = 900;
+			info.startY = 150;
+			info.height = 30;
+			info.numberOfRow = 1;
+			info.numberOfCol = 3;
+			info.tileId = tile.smallRockStone;
+			createColTiles(container,info);
 
-					var x = startX + width * col + space * col;
-					var y = startY + row * height;
-					tileGrass.position.set(x,y);
-					container.addChild(tileGrass);
-				}
-			}
+		//rockSnow	
+			info.startX = 730;
+			info.startY = 500;
+			info.height = 30;
+			info.numberOfRow = 3;
+			info.numberOfCol = 2;
+			info.tileId = tile.smallRockSnow;
+			createColTiles(container,info);
 
+			info.startX = 730;
+			info.startY = 650;
+			info.height = 30;
+			info.numberOfRow = 3;
+			info.numberOfCol = 2;
+			info.tileId = tile.smallRockSnow;
+			createColTiles(container,info);
 
+		//rockGrass
+			info.startX = 430;
+			info.startY = 500;
+			info.height = 30;
+			info.numberOfRow = 2;
+			info.numberOfCol = 2;
+			info.tileId = tile.smallRockGrass;
+			createColTiles(container,info);
 
+			info.startX = 430;
+			info.startY = 650;
+			info.height = 30;
+			info.numberOfRow = 2;
+			info.numberOfCol = 2;
+			info.tileId = tile.smallRockGrass;
+			createColTiles(container,info);
 
 		}
 		
@@ -411,6 +599,58 @@
 			info.gate = tile.sandGateLeft;
 			info.floor =[tile.sandWindowBlinds, tile.sandWindows];
 			info.roof = tile.sandRoofPointy; 
+
+			createBuilding(container, info);
+		}
+
+		function createStoneBuildingType2(container){
+			var tile = new Tile();
+			var info = new Info();
+
+			tile.stoneWindows = "stoneWindows.png";
+			
+			var startX = 1000;
+			var startY = 600;
+		//Groupd of Sand Building 
+			info.startX = startX;
+			info.startY = startY;
+			info.modify = 22;
+			info.numberOfFloor = 3;
+			info.gate = tile.stoneRing;
+			info.floor =[tile.stoneWindowBlinds, tile.stoneWindows];
+			info.roof = tile.stoneRoofRounded; 
+
+			createBuilding(container, info);
+
+			info.startX = 	startX +35;
+			info.startY = startY +2;
+			info.modify = 22;
+			info.numberOfFloor = 5;
+			info.gate = tile.stoneGateRight;
+			info.floor =[tile.stoneWindowBlinds, tile.stoneWindows];
+			info.roof = tile.stoneRoofPointy; 
+
+			createBuilding(container, info);
+
+			info.startX = startX -65 ;
+			info.startY = startY ;
+			info.modify = 22;
+			info.numberOfFloor = 3;
+			info.gate = tile.stoneRing;
+			info.floor =[tile.stoneWindowBlinds, tile.stoneWindows];
+			info.roof = tile.stoneRoofRounded; 
+
+
+			createBuilding(container, info);
+			
+			info.startX = startX - 65 -35;
+			info.startY = startY +2;
+			info.modify = 22;
+			info.numberOfFloor = 5;
+			info.gate = tile.stoneGateLeft;
+			info.floor =[tile.stoneWindowBlinds, tile.stoneWindows];
+			info.roof = tile.stoneRoofPointy; 
+
 
 			createBuilding(container, info);
 		}
