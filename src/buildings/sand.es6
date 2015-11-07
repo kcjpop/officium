@@ -49,7 +49,7 @@ export default function () {
   let text = drawText('Oulun Energia')
   text.visible = false
   c.addChild(text)
-  text.position.set(building.width, 0)
+  text.position.set(building.width, - building.height * 0.7)
 
   building.on('mouseover', () => text.visible = true)
   building.on('mouseout', () => text.visible = false)
