@@ -1,5 +1,7 @@
+/* global $ */
 import * as P from 'pixi.js'
 import {forEach} from 'lodash'
+import {drawText} from 'helpers'
 
 export default class BeigeAlien {
   constructor () {
@@ -8,7 +10,14 @@ export default class BeigeAlien {
   }
 
   stand () {
-    return new P.Sprite(this.textures['alienBeige.png'])
+    let sprite = new P.Sprite(this.textures['alienBeige.png'])
+    let t = drawText('Moi!')
+    t.position.set(sprite.width, -20)
+    sprite.addChild(t)
+
+    sprite.interactive = true
+    sprite.on('click', () => $('#js-character-modal').modal('show'))
+    return sprite
   }
 
   walk () {
