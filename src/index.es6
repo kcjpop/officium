@@ -41,12 +41,6 @@ function makeCityBadge () {
 }
 
 function onLoaded (loader, res) {
-  let b = new BlueAlien()
-  b.vx = 2
-  b.position.set(150, 150)
-  stage.addChild(b)
-  b.play('walk', 0.1)
-
   let cityBadge = makeCityBadge()
   cityBadge.position.set(10, 10)
   stage.addChild(cityBadge)
@@ -57,6 +51,20 @@ function onLoaded (loader, res) {
     Math.floor((game.viewport.h - map.height) / 2)
   )
   stage.addChild(map)
+
+  let b = new BlueAlien()
+  b.position.set(map.x + 65, map.height + b.height + 150)
+  stage.addChild(b)
+  b.play('stand')
+  b.interactive = true
+  b.on('click', () => {
+    b.vx = 5
+    if (b.isPlaying('walk')) {
+      b.play('stand')
+    } else {
+      b.play('walk', 0.1)
+    }
+  })
 
   let alien = new BeigeAlien()
   alien.vx = 2
@@ -73,13 +81,13 @@ function onLoaded (loader, res) {
 function state () {
   // let {alien, map} = game
   let {b, map} = game
-  b.x += b.vx
-  if (b.x === map.width / 2 | 0) {
-    b.vx *= -1
-    b.play('hurt')
-  } else if (b.x === 0) {
-    b.vx = 0
-    b.play('stand')
+
+  if (b.isPlaying('walk')) {
+    b.x += b.vx
+    if (b.x > map.x + map.width - b.width || b.x < map.x - b.width) {
+      b.scale.x *= -1
+      b.vx *= -1
+    }
   }
 
   // alien.x += alien.vx
