@@ -1,3 +1,4 @@
+/* global $ */
 import * as P from 'pixi.js'
 import {drawText} from 'helpers'
 
@@ -52,6 +53,9 @@ export default function () {
 
   building.on('mouseover', () => text.visible = true)
   building.on('mouseout', () => text.visible = false)
+  building.on('click', e => {
+    $('#js-oulu-energia-modal').modal('show')
+  })
 
   return c
 }

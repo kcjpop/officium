@@ -1,3 +1,4 @@
+/* global $ */
 import * as P from 'pixi.js'
 import {drawText} from 'helpers'
 
@@ -55,6 +56,9 @@ export default function () {
   c.interactive = true
   c.on('mouseover', () => text.visible = true)
   c.on('mouseout', () => text.visible = false)
+  c.on('click', e => {
+    $('#js-city-hall-modal').modal('show')
+  })
 
   // Reposition
   house.y = Math.abs(main.height - house.height)
