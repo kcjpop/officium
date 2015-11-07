@@ -62,7 +62,7 @@ function onLoaded (loader, res) {
   let alien = new P.extras.MovieClip(frames)
   alien.vx = 2
   alien.animationSpeed = 0.1
-  alien.position.set(190, 430)
+  alien.position.set(190, map.height + alien.height)
   alien.play()
   stage.addChild(alien)
 
