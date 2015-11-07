@@ -27,7 +27,23 @@
 		
 
 		var Info = function (){};
-	
+		
+		function setup(){
+
+			var container = new Container();
+		
+			createMap(container);
+
+			DecorationForMap(container);
+
+			createSandBuildingType1(container);
+			createWoodBuildingType1(container);
+			createStoneBuildingType1(container);
+		
+			renderer.render(container);
+		
+		}
+
 		
 		function createSprite (spriteId){
 				var sprite = textures[spriteId];
@@ -87,6 +103,35 @@
 			this.sandWindowBlinds = "sandWindowBlinds.png";
 			this.sandWindows = "sandWindows.png";
 			this.sandRoofPointy =  "sandRoofPointy.png";
+			this.sandRoofRounded = "sandRoofRounded.png";
+			this.sandGateLeft = "sandGateLeft.png";
+			this.sandRing = "sandRing.png";
+
+
+			this.stoneDoorLeft = "stoneDoorLeft.png";
+			this.stoneDoorRight = "stoneDoorRight.png";
+			this.stoneGateLeft = "stoneGateLeft.png";
+			this.stoneGateRight = "stoneGateRight.png";
+			this.stoneRoofPointy = "stoneRoofPointy.png";
+			this.stoneRoofRounded = "stoneRoofRounded.png";
+			this.stoneRoofShort = "stoneRoofShort.png";
+			this.stoneWindowBlinds = "stoneWindowBlinds.png";
+			this.stoneWindowBlindsLeft = "stoneWindowBlindsLeft.png";
+			this.stoneWindowLeft = "stoneWindowLeft.png";
+			this.stoneRing = "stoneRing.png";
+
+			this.woodDoorLeft = "woodDoorLeft.png";
+			this.woodDoorRight = "woodDoorRight.png";
+			this.woodDoorWindow = "woodDoorWindow.png";
+			this.woodGateLeft = "woodGateLeft.png";
+			this.woodGateRight = "woodGateRight.png";
+			this.woodDoorWindowBlindsMirror = "woodDoorWindowBlindsMirror.png";
+			this.woodWindowBlinds = "woodWindowBlinds.png";
+			this.woodWindowBlindsLeft = "woodWindowBlindsLeft.png";
+			this.woodWindowBlindsRight = "woodWindowBlindsRight.png";
+			this.woodRoofPointy = "woodRoofPointy.png";
+			this.woodRoofRounded = "woodRoofRounded.png";
+			this.woodRing = "woodRing.png";
 
 		}
 		function createMap(container){
@@ -230,6 +275,10 @@
 			//bushAutumn.png, bushDirt.png, bushGrass.png, bushMagic.png, bushSand.png , bushSnow.png
 			//flowerBlue.png, flowerGreen.png, flowerRed.png,flowerWhite.png, flowerYellow.png
 
+			var tile = new Tile();
+			tile.treeCactus_1 = "treeCactus_1.png";
+			tile.treeBlue_low = "treeBlue_low.png";
+			
 			var startX =  5 ;
 			var startY = 20;
 			var width = 27;
@@ -319,47 +368,110 @@
 
 		}
 		
-		function setup(){
-
-			var building = new Container();
-
-			/*var sandDoorId = [ "sandDoorLeft.png", "sandDoorRight.png",  "sandDoorWindow.png", "sandDoorWindowBlinds.png",
-				 				"sandDoorWindowBlindsMirror.png","sandDoorWindowMirror.png"];
-
-			var sandGateId = [ "sandGateLeft.png", "sandGateRight.png", "sandRing.png"];
-
-			var sandRoofId = [ "sandRoofPointy.png","sandRoofRounded.png","sandRoofShort.png",
-								"sandRoofStraight.png","sandRoofTall.png"]
-
-			var sandWindowId =  ["sandWindowBlinds.png", "sandWindowBlindsLeft.png", "sandWindowBlindsRight.png", 
-								"sandWindowLeft.png", "sandWindowRight.png","sandWindows.png"];*/
-		
-			createMap(building);
-
-			DecorationForMap(building);
-
+		function createSandBuildingType1(container){
 			var tile = new Tile();
 			var info = new Info();
 
-			info.startX = 600;
-			info.startY = 500;
+		
+		//Groupd of Sand Building 
+			info.startX = 	600;
+			info.startY = 600;
 			info.modify = 22;
-			info.numberOfFloor = 4;
+			info.numberOfFloor = 3;
+			info.gate = tile.sandRing;
+			info.floor =[tile.sandWindowBlinds, tile.sandWindows];
+			info.roof = tile.sandRoofRounded; 
+
+			createBuilding(container, info);
+
+			info.startX = 	600 +35;
+			info.startY = 600 +2;
+			info.modify = 22;
+			info.numberOfFloor = 5;
 			info.gate = tile.sandGateRight;
 			info.floor =[tile.sandWindowBlinds, tile.sandWindows];
 			info.roof = tile.sandRoofPointy; 
 
-			createSandBuilding(building, info);
+			createBuilding(container, info);
 
-			renderer.render(building);
-		
-		}
+			info.startX = 	600 -65 ;
+			info.startY = 600 ;
+			info.modify = 22;
+			info.numberOfFloor = 3;
+			info.gate = tile.sandRing;
+			info.floor =[tile.sandWindowBlinds, tile.sandWindows];
+			info.roof = tile.sandRoofRounded; 
 
-		function createSandBuilding(container){
+			createBuilding(container, info);
 			
+			info.startX = 	600 - 65 -35;
+			info.startY = 600 +2;
+			info.modify = 22;
+			info.numberOfFloor = 5;
+			info.gate = tile.sandGateLeft;
+			info.floor =[tile.sandWindowBlinds, tile.sandWindows];
+			info.roof = tile.sandRoofPointy; 
+
+			createBuilding(container, info);
 		}
 
-		function createSandBuilding(container, info){
+		function createStoneBuildingType1(container){
+			var tile = new Tile();
+			var info = new Info();
+
+			//Group of Stone Building
+			
+			info.startX = 150;
+			info.startY = 150;
+			info.modify = 22;
+			info.numberOfFloor = 2;
+			info.gate = tile.stoneDoorLeft;
+			info.floor =[tile.stoneWindowBlinds, tile.stoneWindowBlindsLeft];
+			info.roof = tile.stoneRoofShort; 
+
+			createBuilding(container, info);
+
+			info.startX = 150 + 65;
+			info.startY = 150;
+			info.modify = 22;
+			info.numberOfFloor = 3;
+			info.gate = tile.stoneDoorLeft;
+			info.floor =[tile.stoneWindowBlinds, tile.stoneWindowBlindsLeft];
+			info.roof = tile.stoneRoofRounded; 
+
+			createBuilding(container, info);
+
+			info.startX = 150 + 65*2;
+			info.startY = 150;
+			info.modify = 22;
+			info.numberOfFloor = 5;
+			info.gate = tile.stoneGateLeft;
+			info.floor =[tile.stoneWindowBlinds, tile.stoneWindowBlindsLeft];
+			info.roof = tile.stoneRoofPointy; 
+
+			createBuilding(container, info);
+		}
+
+		function createWoodBuildingType1(container){
+
+			var tile = new Tile();
+			var info = new Info();
+
+			info.startX = 150 + 65*14;
+			info.startY = 150;
+			info.modify = 22;
+			info.numberOfFloor = 5;
+			info.gate = tile.woodGateRight;
+			info.floor =[tile.woodWindowBlinds];
+			info.roof = tile.woodRoofRounded;
+
+			createBuilding(container, info);
+			
+
+		}
+		
+
+		function createBuilding(container, info){
 
 			var x = info.startX;
 			var y = info.startY;
@@ -372,22 +484,28 @@
 			gate.position.set(x , y);
 			container.addChild(gate);
 
+
 			//build 4 floor
 			var i =0;
-			while( i < info.numberOfFloor){
+			if( info.floor.length != 0){
+				while( i <= info.numberOfFloor){
 
-				for( var floorType =0; floorType < info.floor.length; ++floorType){
-					++i;
-					var floor = createSprite( info.floor[floorType] );
-					floor.position.set( x, y - modify*i);
-					container.addChild( floor );
+					for( var floorType =0; floorType < info.floor.length; ++floorType){
+						++i;
+						if( i > info.numberOfFloor) break;
+						var floor = createSprite( info.floor[floorType] );
+						floor.position.set( x, y - modify*i);
+						container.addChild( floor );
+					}
+				
+
 				}
-			
-
+			}else{
+				++i;
 			}
 
 			//build roof
-			++i;
+			
 			var roof = createSprite( info.roof );
 			roof.position.set(x,y - modify*i);
 			container.addChild(roof);
